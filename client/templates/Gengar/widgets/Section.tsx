@@ -28,12 +28,20 @@ const Section: React.FC<SectionProps> = ({
 
   if (isArray(section.items) && isEmpty(section.items)) return null;
 
+  let classnames = ['grid', 'items-start'];
+
+  if (section.id && ['skills', 'interests', 'languages'].includes(section.id)) {
+    classnames.push('gap-1');
+  } else {
+    classnames.push('gap-4');
+  }
+
   return (
     <section>
       <Heading>{section.name}</Heading>
 
       <div
-        className="grid items-start gap-4"
+        className={classnames.join(' ')}
         style={{ gridTemplateColumns: `repeat(${section.columns}, minmax(0, 1fr))` }}
       >
         {section.items.map((item: ListItem) => {
@@ -58,7 +66,7 @@ const Section: React.FC<SectionProps> = ({
                   {subtitle && <span className="opacity-75">{subtitle}</span>}
                 </div>
 
-                <div className="flex flex-col gap-1 text-right text-xs">
+                <div className="flex flex-col gap-1 text-right">
                   {date && <div className="opacity-50">({date})</div>}
                   {headline && <span className="opacity-75">{headline}</span>}
                 </div>
@@ -66,7 +74,7 @@ const Section: React.FC<SectionProps> = ({
 
               {(level || levelNum > 0) && (
                 <div className="grid gap-1">
-                  {level && <span className="opacity-75">{level}</span>}
+                  {level && <span className="opacity-75 text-xxs">{level}</span>}
                   {levelNum > 0 && (
                     <div className="flex">
                       {Array.from(Array(8).keys()).map((_, index) => (
