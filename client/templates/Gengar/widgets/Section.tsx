@@ -13,6 +13,8 @@ import { addHttp, parseListItemPath } from '@/utils/template';
 
 import Heading from './Heading';
 
+const amountOfDots = 5;
+
 const Section: React.FC<SectionProps> = ({
   path,
   titlePath = 'title',
@@ -28,20 +30,16 @@ const Section: React.FC<SectionProps> = ({
 
   if (isArray(section.items) && isEmpty(section.items)) return null;
 
-  const classnames = ['grid', 'items-start'];
-
-  if (section.id && ['skills', 'interests', 'languages'].includes(section.id)) {
-    classnames.push('gap-1');
-  } else {
-    classnames.push('gap-4');
-  }
-
   return (
     <section>
       <Heading>{section.name}</Heading>
 
       <div
-        className={classnames.join(' ')}
+        className={
+          section.id && ['skills', 'interests', 'languages'].includes(section.id)
+            ? 'gap-1 grid items-start'
+            : 'gap-2 grid items-start'
+        }
         style={{ gridTemplateColumns: `repeat(${section.columns}, minmax(0, 1fr))` }}
       >
         {section.items.map((item: ListItem) => {
@@ -59,11 +57,30 @@ const Section: React.FC<SectionProps> = ({
             date = formatDateString(get(item, 'date'), dateFormat);
 
           return (
-            <div key={id} id={id} className="grid gap-1">
+            <div key={id} id={id} className="grid gap-0.5">
+              {title && (
+                <span
+                  className={
+                    section.id && ['work', 'education'].includes(section.id) ? 'font-semibold text-sm' : 'font-semibold'
+                  }
+                >
+                  {title}
+                </span>
+              )}
+
+              {url && (
+                <DataDisplay icon={<Link />} link={addHttp(url)}>
+                  {url}
+                </DataDisplay>
+              )}
+
               <div className="flex items-start justify-between">
                 <div className="flex flex-col">
-                  {title && <span className="font-semibold">{title}</span>}
-                  {subtitle && <span className="opacity-75">{subtitle}</span>}
+                  {subtitle && (
+                    <span className={section.id == 'work' ? 'font-semibold text-sm opacity-75' : 'opacity-75'}>
+                      {subtitle}
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-1 text-right">
@@ -77,13 +94,13 @@ const Section: React.FC<SectionProps> = ({
                   {level && <span className="opacity-75 text-xxs">{level}</span>}
                   {levelNum > 0 && (
                     <div className="flex">
-                      {Array.from(Array(8).keys()).map((_, index) => (
+                      {Array.from(Array(amountOfDots).keys()).map((_, index) => (
                         <div
                           key={index}
-                          className="mr-1 h-2 w-4 rounded-sm border"
+                          className="mr-1 h-2 w-2 rounded-full border"
                           style={{
                             borderColor: primaryColor,
-                            backgroundColor: levelNum / (10 / 8) > index ? primaryColor : '',
+                            backgroundColor: levelNum / (10 / amountOfDots) > index ? primaryColor : '',
                           }}
                         />
                       ))}
@@ -93,12 +110,6 @@ const Section: React.FC<SectionProps> = ({
               )}
 
               {summary && <Markdown>{summary}</Markdown>}
-
-              {url && (
-                <DataDisplay icon={<Link />} link={addHttp(url)}>
-                  {url}
-                </DataDisplay>
-              )}
 
               {keywords && <div>{keywords.join(', ')}</div>}
 
