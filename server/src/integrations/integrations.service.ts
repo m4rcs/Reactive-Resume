@@ -131,8 +131,9 @@ export class IntegrationsService {
                   {
                     id: uuidv4(),
                     name: get(position, 'Company Name'),
+                    description: get(position, 'Description'),
                     position: get(position, 'Title'),
-                    summary: get(position, 'Description'),
+                    summary: get(position, 'Summary'),
                     date: {
                       start: this.parseDate(get(position, 'Started On')),
                       end: this.parseDate(get(position, 'Finished On')),

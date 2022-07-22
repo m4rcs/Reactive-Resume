@@ -5,6 +5,7 @@ export type WorkExperience = {
   id?: string;
   name: string;
   position: string;
+  description?: string;
   date?: DateRange;
   url?: string;
   summary?: string;

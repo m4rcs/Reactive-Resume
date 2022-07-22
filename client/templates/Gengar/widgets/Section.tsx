@@ -54,7 +54,8 @@ const Section: React.FC<SectionProps> = ({
             levelNum: number = get(item, 'levelNum'),
             phone: string = get(item, 'phone'),
             email: string = get(item, 'email'),
-            date = formatDateString(get(item, 'date'), dateFormat);
+            date = formatDateString(get(item, 'date'), dateFormat),
+            description: string = get(item, 'description');
 
           return (
             <div key={id} id={id} className="grid gap-0.5">
@@ -67,6 +68,8 @@ const Section: React.FC<SectionProps> = ({
                   {title}
                 </span>
               )}
+
+              {description && <Markdown>{description}</Markdown>}
 
               {url && (
                 <DataDisplay icon={<Link />} link={addHttp(url)}>

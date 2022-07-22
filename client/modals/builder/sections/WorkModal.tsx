@@ -25,6 +25,7 @@ const path: SectionPath = 'sections.work';
 const defaultState: FormData = {
   name: '',
   position: '',
+  description: '',
   date: {
     start: '',
     end: '',
@@ -37,6 +38,7 @@ const schema = Joi.object<FormData>().keys({
   id: Joi.string(),
   name: Joi.string().required(),
   position: Joi.string().required(),
+  description: Joi.string().allow(''),
   date: Joi.object().keys({
     start: Joi.string().allow(''),
     end: Joi.string().allow(''),
@@ -124,6 +126,23 @@ const WorkModal: React.FC = () => {
               label={t<string>('builder.common.form.position.label')}
               error={!!fieldState.error}
               helperText={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          name="description"
+          control={control}
+          render={({ field, fieldState }) => (
+            <TextField
+              multiline
+              minRows={3}
+              maxRows={6}
+              label={t<string>('builder.common.form.description.label')}
+              className="col-span-2"
+              error={!!fieldState.error}
+              helperText={fieldState.error?.message || <MarkdownSupported />}
               {...field}
             />
           )}
