@@ -28,7 +28,7 @@ const Section: React.FC<SectionProps> = ({
 
   if (isArray(section.items) && isEmpty(section.items)) return null;
 
-  let classnames = ['grid', 'items-start'];
+  const classnames = ['grid', 'items-start'];
 
   if (section.id && ['skills', 'interests', 'languages'].includes(section.id)) {
     classnames.push('gap-1');
