@@ -58,8 +58,14 @@ const Section: React.FC<SectionProps> = ({
             description: string = get(item, 'description');
 
           return (
-            <div key={id} id={id} className="grid gap-0.5">
-              {title !== ' ' && (
+            <div key={id} id={id} className={title === '<hr>' ? 'grid gap-0.5 col-span-2' : 'grid gap-0.5'}>
+              {title === '<hr>' && (
+                <div
+                  className="mt-1 border-b-2 w-2/3 opacity-50"
+                  style={{ color: primaryColor, borderColor: primaryColor }}
+                ></div>
+              )}
+              {title !== ' ' && title !== '<hr>' && (
                 <div className="flex items-start justify-between">
                   <div className="flex flex-col">
                     {title && (
