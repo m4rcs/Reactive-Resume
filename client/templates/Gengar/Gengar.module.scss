@@ -15,7 +15,7 @@
     @apply col-span-4 flex flex-col;
 
     .inner {
-      @apply flex h-full flex-col gap-4 p-4;
+      @apply flex h-full flex-col gap-5 p-5;
     }
   }
 
@@ -23,7 +23,7 @@
     @apply col-span-2 flex h-full flex-col;
 
     .inner {
-      @apply flex h-full flex-col gap-4 p-4;
+      @apply flex h-full flex-col gap-5 p-5;
     }
   }
 }
