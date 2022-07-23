@@ -59,28 +59,42 @@ const Section: React.FC<SectionProps> = ({
 
           return (
             <div key={id} id={id} className="grid gap-0.5">
-              {title && (
-                <span
-                  className={
-                    section.id && ['work', 'education'].includes(section.id) ? 'font-semibold text-sm' : 'font-semibold'
-                  }
-                >
-                  {title}
-                </span>
+              {title !== ' ' && (
+                <div className="flex items-start justify-between">
+                  <div className="flex flex-col">
+                    {title && (
+                      <span
+                        className={
+                          section.id && ['work', 'education'].includes(section.id)
+                            ? 'font-semibold text-sm'
+                            : 'font-semibold'
+                        }
+                      >
+                        {title}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-1 text-right">
+                    {url && (
+                      <DataDisplay icon={<Link />} link={addHttp(url)} className="opacity-75">
+                        {url}
+                      </DataDisplay>
+                    )}
+                  </div>
+                </div>
               )}
 
-              {description && <Markdown>{description}</Markdown>}
-
-              {url && (
-                <DataDisplay icon={<Link />} link={addHttp(url)}>
-                  {url}
-                </DataDisplay>
-              )}
+              {description && <Markdown className="pb-2">{description}</Markdown>}
 
               <div className="flex items-start justify-between">
                 <div className="flex flex-col">
                   {subtitle && (
-                    <span className={section.id == 'work' ? 'font-semibold text-sm opacity-75' : 'opacity-75'}>
+                    <span
+                      className={
+                        section.id == 'work' ? 'font-semibold text-sm opacity-90 mb-1 border-b-2' : 'opacity-75'
+                      }
+                      style={section.id == 'work' ? { color: primaryColor, borderColor: primaryColor } : {}}
+                    >
                       {subtitle}
                     </span>
                   )}
