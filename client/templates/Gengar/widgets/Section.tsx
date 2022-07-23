@@ -84,7 +84,7 @@ const Section: React.FC<SectionProps> = ({
                 </div>
               )}
 
-              {description && <Markdown className="pb-2">{description}</Markdown>}
+              {description && <Markdown className="opacity-50 pb-2">{description}</Markdown>}
 
               <div className="flex items-start justify-between">
                 <div className="flex flex-col">
