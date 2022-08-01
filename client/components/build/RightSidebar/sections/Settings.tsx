@@ -15,7 +15,7 @@ import dayjs from 'dayjs';
 import get from 'lodash/get';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 
 import Heading from '@/components/shared/Heading';
@@ -36,6 +36,8 @@ const Settings = () => {
 
   const { locale, ...router } = useRouter();
 
+  const [confirmReset, setConfirmReset] = useState(false);
+
   const resume = useAppSelector((state) => state.resume);
   const theme = useAppSelector((state) => state.build.theme);
   const pages = useAppSelector((state) => state.resume.metadata.layout);
@@ -48,7 +50,7 @@ const Settings = () => {
   const dateConfig: DateConfig = useMemo(() => get(resume, 'metadata.date'), [resume]);
 
   const isDarkMode = useMemo(() => theme === 'dark', [theme]);
-  const exampleString = useMemo(() => `Eg. ${dayjs().format(dateConfig.format)}`, [dateConfig.format]);
+  const exampleString = useMemo(() => `Eg. ${dayjs().utc().format(dateConfig.format)}`, [dateConfig.format]);
   const themeString = useMemo(() => (isDarkMode ? 'Matte Black Everything' : 'As bright as your future'), [isDarkMode]);
 
   const { mutateAsync: loadSampleDataMutation } = useMutation<Resume, ServerError, LoadSampleDataParams>(
@@ -78,9 +80,14 @@ const Settings = () => {
   };
 
   const handleResetResume = async () => {
-    await resetResumeMutation({ id });
+    if (!confirmReset) {
+      return setConfirmReset(true);
+    }
 
-    queryClient.invalidateQueries(`resume/${username}/${slug}`);
+    await resetResumeMutation({ id });
+    await queryClient.invalidateQueries(`resume/${username}/${slug}`);
+
+    setConfirmReset(false);
   };
 
   return (
@@ -202,7 +209,11 @@ const Settings = () => {
                 <DeleteForever />
               </ListItemIcon>
               <ListItemText
-                primary={t<string>('builder.rightSidebar.sections.settings.resume.reset.primary')}
+                primary={
+                  confirmReset
+                    ? 'Are you sure?'
+                    : t<string>('builder.rightSidebar.sections.settings.resume.reset.primary')
+                }
                 secondary={t<string>('builder.rightSidebar.sections.settings.resume.reset.secondary')}
               />
             </ListItemButton>
