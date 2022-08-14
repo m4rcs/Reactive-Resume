@@ -81,9 +81,11 @@ export const MastheadMain: React.FC = () => {
 
   const { summary } = useAppSelector((state) => state.resume.basics);
 
-  return (
+  return summary ? (
     <div className="grid gap-2 p-4" style={{ backgroundColor }}>
       <Markdown>{summary}</Markdown>
     </div>
+  ) : (
+    <></>
   );
 };
